@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(255) NOT NULL,
-  "password" VARCHAR(255) NOT NULL
+  id UUID PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  "user_pw" VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
-  id SERIAL PRIMARY KEY,
+  id UUID PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   "description" TEXT,
-  user_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  userId UUID NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id)
 );

@@ -6,15 +6,20 @@ services:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PW}
       POSTGRES_DB: ${PG_DB}
-    volumes:
-      - ./data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  api:
-    build:
-      context: .
-    restart: always
     ports:
-      - 3000:3000
+      - 5432:5432
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    build: ./
+    ports:
+      - 5000:5000
+    environment:
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://${PG_USER}:${PG_PW}@db/${PG_DB}
+    volumes:
+      - ./:/app
     depends_on:
       - db
-    command: sh -c "npm install && npm start"
+    command: flask run --host=0.0.0.0 --with-threads --reload
