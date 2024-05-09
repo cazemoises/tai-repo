@@ -14,7 +14,7 @@ services:
   api:
     build: ./
     ports:
-      - 5000:5000
+      - ${SERVER_PORT}:${SERVER_PORT}
     environment:
       FLASK_ENV: development
       DATABASE_URL: postgresql://${PG_USER}:${PG_PW}@db/${PG_DB}
